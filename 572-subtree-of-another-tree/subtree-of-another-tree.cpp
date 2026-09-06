@@ -12,19 +12,20 @@
 class Solution {
 public:
 
-    bool isIdentical(TreeNode* root, TreeNode* subRoot){
-        if(root==NULL || subRoot==NULL)
-            return root==subRoot;
-        return root->val==subRoot->val && isIdentical(root->left,subRoot->left) && isIdentical(root->right,subRoot->right);
-    }
-
-    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
-        if(root==NULL){
-            return subRoot==NULL;
-        }
-        if(isIdentical(root,subRoot)){
+    bool sameTree(TreeNode* root,TreeNode* subRoot){
+        if(!root&&!subRoot)
             return true;
-        }
-        return isSubtree(root->left,subRoot) || isSubtree(root->right,subRoot);
+        if(!root||!subRoot)
+            return false;
+        if(root->val!=subRoot->val)
+            return false;
+        return sameTree(root->left,subRoot->left)&&sameTree(root->right,subRoot->right);
+    }
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+        if(root==nullptr||!subRoot)
+            return false;
+        if(sameTree(root,subRoot))
+            return true;
+        return isSubtree(root->left,subRoot)||isSubtree(root->right,subRoot);
     }
 };
